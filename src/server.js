@@ -43,13 +43,6 @@ const startServer = async () =>{
         await sequelize.authenticate();
         logger.info(' PostgreSQL connected successfully');
 
-        // if (process.env.NODE_ENV === 'development') {
-        //     await sequelize.sync({ alter: true });
-        //     logger.info(' Database & tables synced (development mode)');
-        // } else {
-        //     logger.info(' Production mode - make sure migrations are applied manually');
-        // }
-
         app.listen(PORT,()=>{
             logger.info(` Server running on http://localhost:${PORT}`);
             logger.info(` Swagger Docs: http://localhost:${PORT}/api/docs`);
