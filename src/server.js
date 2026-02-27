@@ -10,6 +10,7 @@ import { logger } from './utils/logger.js';
 
 //Routes
 import authRouter from './routes/authRoute.js';
+import leadRouter from './routes/leadRoutes.js';
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -33,6 +34,7 @@ app.get('/health',(req,res)=>{
 
 //app routes
 app.use('/api/auth',authRouter)
+app.use('/api/leads',leadRouter)
 
 
 
@@ -41,12 +43,12 @@ const startServer = async () =>{
         await sequelize.authenticate();
         logger.info(' PostgreSQL connected successfully');
 
-        if (process.env.NODE_ENV === 'development') {
-            await sequelize.sync({ alter: true });
-            logger.info(' Database & tables synced (development mode)');
-        } else {
-            logger.info(' Production mode - make sure migrations are applied manually');
-        }
+        // if (process.env.NODE_ENV === 'development') {
+        //     await sequelize.sync({ alter: true });
+        //     logger.info(' Database & tables synced (development mode)');
+        // } else {
+        //     logger.info(' Production mode - make sure migrations are applied manually');
+        // }
 
         app.listen(PORT,()=>{
             logger.info(` Server running on http://localhost:${PORT}`);

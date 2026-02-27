@@ -24,7 +24,32 @@ Developed for Scholigence Machine Test.
                     scheme: 'bearer',
                     bearerFormat: 'JWT',
                     description: 'Enter your JWT token. Get it from POST /api/auth/login'
-
+                }
+            },
+            schemas: {
+                Lead: {
+                    type: 'object',
+                    properties: {
+                        id: { type: 'string', format: 'uuid' },
+                        lead_number: { type: 'string' },
+                        first_name: { type: 'string' },
+                        last_name: { type: 'string' },
+                        email: { type: 'string', format: 'email' },
+                        mobile_number: { type: 'string' },
+                        lead_source: { type: 'string' },
+                        product_type: { type: 'string' },
+                        priority: { type: 'string' },
+                        pincode: { type: 'string' },
+                        city: { type: 'string' },
+                        state: { type: 'string' },
+                        gender: { type: 'string' },
+                        date_of_birth: { type: 'string', format: 'date' },
+                        status: { type: 'string' },
+                        created_by: { type: 'string' },
+                        updated_by: { type: 'string' },
+                        created_at: { type: 'string', format: 'date-time' },
+                        updated_at: { type: 'string', format: 'date-time' }
+                    }
                 }
             }
         },
