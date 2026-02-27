@@ -4,8 +4,12 @@ import express from "express";
 import cors from 'cors';
 import morgan from 'morgan';
 import swagger from 'swagger-ui-express';
+import { swaggerJsdoc } from './config/swagger.js';
 import { sequelize } from './config/db.js';
-//const logger from ''
+import { logger } from './utils/logger.js';
+
+//Routes
+import authRouter from './routes/authRoute.js';
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -14,22 +18,42 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-// app.use(morgan('combined',{
-//     stream:{write: (msg) => lo}
-// }))
+app.use(morgan('combined',{
+    stream:{write: (msg) => logger.info(msg.trim())}
+}));
+
+//api documentation
+app.use('/api/docs',swagger.serve, swagger.setup(swaggerJsdoc,{
+    customSiteTitle:'Lead API Documentaion'
+}))
 
 app.get('/health',(req,res)=>{
     res.send("working good✅")
 })
 
+//app routes
+app.use('/api/auth',authRouter)
+
+
+
 const startServer = async () =>{
     try {
         await sequelize.authenticate();
+        logger.info(' PostgreSQL connected successfully');
+
+        if (process.env.NODE_ENV === 'development') {
+            await sequelize.sync({ alter: true });
+            logger.info(' Database & tables synced (development mode)');
+        } else {
+            logger.info(' Production mode - make sure migrations are applied manually');
+        }
 
         app.listen(PORT,()=>{
-            console.log(`server running on http://localhost:${PORT}`)
+            logger.info(` Server running on http://localhost:${PORT}`);
+            logger.info(` Swagger Docs: http://localhost:${PORT}/api/docs`);
         })
     } catch (error) {
+        logger.error('Server startup error:', error);
         process.exit(1)
     }
 }
