@@ -18,8 +18,8 @@ and Swagger for interactive API documentation.
 
 1. Clone the repository and install dependencies:
    ```bash
-   git clone https://github.com/Arun12kumar/lead_management_sysytem.git
-   cd lead_management_sysytem
+   git clone https://github.com/Arun12kumar/lead_management_system.git
+   cd lead_management_system
    npm install
    ```
 2. Copy `.env.example` to `.env` and set database credentials plus JWT keys:
